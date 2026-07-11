@@ -1,0 +1,31 @@
+# ==============================
+# Python
+# ==============================
+
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+.venv/
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# ==============================
+# Project Files
+# ==============================
+
+# Ignore input images
+input/*
+!input/.gitkeep
+
+# Ignore generated outputs
+output/*
+!output/.gitkeep
+
+# Logs
+*.log
