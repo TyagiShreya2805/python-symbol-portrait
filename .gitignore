@@ -29,3 +29,8 @@ output/*
 
 # Logs
 *.log
+
+# Generated outputs
+output/*.jpg
+output/*.txt
+output/*.html

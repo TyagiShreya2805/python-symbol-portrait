@@ -14,6 +14,25 @@ def convert_to_grayscale(image: np.ndarray) -> np.ndarray:
 
     return grayscale_image
 
+def enhance_contrast(
+    image: np.ndarray,
+) -> np.ndarray:
+    """
+    Improve local contrast in a grayscale image.
+    """
+
+    if image.ndim != 2:
+        raise ValueError(
+            "enhance_contrast expects a grayscale image."
+        )
+
+    clahe = cv2.createCLAHE(
+        clipLimit=2.0,
+        tileGridSize=(8, 8),
+    )
+
+    return clahe.apply(image)
+
 def resize_for_symbols(
     image: np.ndarray,
     output_width: int = 100,
