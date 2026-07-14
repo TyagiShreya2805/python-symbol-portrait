@@ -6,23 +6,28 @@ from src.face_detector import (
     select_largest_face,
 )
 from src.image_loader import load_image, save_image
-from src.preprocessing import convert_to_grayscale
+from src.preprocessing import (
+    convert_to_grayscale,
+    resize_for_symbols,
+)
+from src.renderer import save_symbol_portrait
+from src.symbol_mapper import image_to_symbol_lines
 
 
 PROJECT_ROOT = Path(__file__).parent
 
 INPUT_PATH = PROJECT_ROOT / "input" / "portrait.jpg"
 
-CROPPED_OUTPUT_PATH = (
-    PROJECT_ROOT
-    / "output"
-    / "cropped_face.jpg"
-)
-
 GRAYSCALE_OUTPUT_PATH = (
     PROJECT_ROOT
     / "output"
     / "grayscale_face.jpg"
+)
+
+SYMBOL_OUTPUT_PATH = (
+    PROJECT_ROOT
+    / "output"
+    / "symbol_portrait.txt"
 )
 
 
@@ -47,9 +52,13 @@ def main() -> None:
         cropped_face
     )
 
-    save_image(
-        cropped_face,
-        CROPPED_OUTPUT_PATH,
+    resized_face = resize_for_symbols(
+        grayscale_face,
+        output_width=100,
+    )
+
+    symbol_lines = image_to_symbol_lines(
+        resized_face
     )
 
     save_image(
@@ -57,11 +66,15 @@ def main() -> None:
         GRAYSCALE_OUTPUT_PATH,
     )
 
-    print("Face cropped successfully!")
-    print(f"Faces initially detected : {len(faces)}")
-    print(f"Cropped face shape       : {cropped_face.shape}")
-    print(f"Colour crop saved at     : {CROPPED_OUTPUT_PATH}")
-    print(f"Grayscale crop saved at  : {GRAYSCALE_OUTPUT_PATH}")
+    save_symbol_portrait(
+        symbol_lines,
+        SYMBOL_OUTPUT_PATH,
+    )
+
+    print("Symbol portrait created successfully!")
+    print(f"Face shape        : {cropped_face.shape}")
+    print(f"Symbol grid shape : {resized_face.shape}")
+    print(f"Saved at          : {SYMBOL_OUTPUT_PATH}")
 
 
 if __name__ == "__main__":
